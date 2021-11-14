@@ -13,7 +13,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/edufelizardo1/Cucumber_Locadora)](https://github.com/edufelizardo1/TesteUnitariosJUnitLocadora/stargazers)
 [![Generic badge](https://img.shields.io/static/v1?label=build&message=success&color=<COLOR>)]()
 
-![alt text](http://url/to/img.png)
+![alt text](https://github.com/edufelizardo1/TesteUnitariosJUnitLocadora/blob/main/src/main/resources/img/TDD_1.jpg?raw=true)
 
 São testes Simples que procuram entender a funcionalidade dos testes desenvolvidos com ***JUnit***. Também tem como ituíto otimizar
 os tempos de testes, principalmente os unitários. A minha necessidade de contribuir para com meu time de desnvolvimento, 
