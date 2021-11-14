@@ -8,8 +8,11 @@ import exceptions.LocadoraException;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.junit.runners.MethodSorters;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static utils.DataUtils.isMesmaData;
@@ -35,7 +38,7 @@ public class LocacaoServiceTest {
     public void alugarFilme() throws Exception {
 //        Arrange
         Usuario usuario = new Usuario("usuario 1");
-        Filme filme = new Filme("filme 1", 2, 5.0);
+        List<Filme> filme = Arrays.asList(new Filme("Filme 1", 2, 5.0));
 
 //        Action
         Locacao locacao = service.alugarFilme(usuario, filme);
@@ -54,7 +57,7 @@ public class LocacaoServiceTest {
     public void Locacao_FilmeSemEstoqueTest () throws Exception {
 //        Arrange
         Usuario usuario = new Usuario("usuario 1");
-        Filme filme = new Filme("filme 1", 0, 5.0);
+        List<Filme> filme = Arrays.asList(new Filme("Filme 1", 0, 5.0));
 
 //        Action
         service.alugarFilme(usuario, filme);
@@ -69,7 +72,7 @@ public class LocacaoServiceTest {
     public void Locacao_FilmeSemEstoque2Test () {
 //        Arrange
         Usuario usuario = new Usuario("usuario 1");
-        Filme filme = new Filme("filme 1", 0, 5.0);
+        List<Filme> filme = Arrays.asList(new Filme("Filme 1", 0, 5.0));
 
 //        Action
         try {
@@ -91,7 +94,7 @@ public class LocacaoServiceTest {
     public void Locacao_FilmeSemEstoque3Test () throws Exception {
 //        Arrange
         Usuario usuario = new Usuario("usuario 1");
-        Filme filme = new Filme("filme 1", 0, 5.0);
+        List<Filme> filme = Arrays.asList(new Filme("Filme 1", 0, 5.0));
 
 //        Action
         expectedException.expect(Exception.class);
@@ -104,7 +107,7 @@ public class LocacaoServiceTest {
     @Test
     public void LocacaoUsuariovazioTest () throws FilmesSemEstoqueException {
         //Arrange
-        Filme filme = new Filme("filme 1", 1, 5.0);
+        List<Filme> filme = Arrays.asList(new Filme("Filme 1", 1, 5.0));
         Usuario usuario = null;
 
         //Action
