@@ -4,6 +4,7 @@ import static utils.DataUtils.adicionarDias;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Date;
+import java.util.List;
 
 import entidades.Filme;
 import entidades.Locacao;
@@ -15,21 +16,27 @@ import utils.DataUtils;
 
 public class LocacaoService {
 	
-	public Locacao alugarFilme(Usuario usuario, Filme filme) throws FilmesSemEstoqueException, LocadoraException {
+	public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmesSemEstoqueException, LocadoraException {
 		if (usuario == null) {
 			throw new LocadoraException("Usuário vazio.");
 		}
-		if (filme == null) {
+		if (filmes == null || filmes.isEmpty()) {
 			throw new LocadoraException("Filme vazio.");
 		}
-		if (filme.getEstoque() == 0) {
-			throw new FilmesSemEstoqueException();
+		for (Filme filme: filmes) {
+			if (filme.getEstoque() == 0) {
+				throw new FilmesSemEstoqueException();
+			}
 		}
 		Locacao locacao = new Locacao();
-		locacao.setFilme(filme);
+		locacao.setFilmes(filmes);
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
-		locacao.setValor(filme.getPrecoLocacao());
+		Double valorTotal = 0d;
+		for (Filme filme: filmes) {
+			valorTotal += filme.getPrecoLocacao();
+		}
+		locacao.setValor(valorTotal);
 
 		//Entrega no dia seguinte
 		Date dataEntrega = new Date();
@@ -54,7 +61,7 @@ public class LocacaoService {
 		//acao
 		Locacao locacao = null;
 		try {
-			locacao = service.alugarFilme(usuario, filme);
+			locacao = service.alugarFilme(usuario, locacao.getFilmes());
 			//verificacao
 			System.out.println(locacao.getValor() == 5.0);
 			System.out.println(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
