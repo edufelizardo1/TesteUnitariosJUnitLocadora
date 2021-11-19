@@ -2,6 +2,8 @@ package servicos;
 
 import builders.FilmeBuilder;
 import builders.UsuarioBuilder;
+import daos.LocacaoDAO;
+import daos.LocacaoDAOFake;
 import entidades.Filme;
 import entidades.Locacao;
 import entidades.Usuario;
@@ -12,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.*;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,6 +31,9 @@ import static org.junit.Assert.assertThat;
 @RunWith(Parameterized.class)
 public class CalculoValorLocacaoTest {
 
+    private LocacaoDAO dao;
+    private SPCService spc;
+
     private LocacaoService service;
     @Parameter
     public List<Filme> filmes;
@@ -39,6 +45,10 @@ public class CalculoValorLocacaoTest {
     @Before
     public  void setup () {
         service = new LocacaoService();
+        dao = Mockito.mock(LocacaoDAO.class);
+        service.setLocacaoDAO(dao);
+        spc = Mockito.mock(SPCService.class);
+        service.setSPCService(spc);
     }
 
     private static final Filme filme1 = umFilme().agora();
