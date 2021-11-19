@@ -1,5 +1,6 @@
 package servicos;
 
+import buildermaster.BuilderMaster;
 import builders.FilmeBuilder;
 import builders.UsuarioBuilder;
 import entidades.Filme;
@@ -153,5 +154,9 @@ public class LocacaoServiceTest {
 //        Verificação
         boolean ehSegunda = DataUtils.verificarDiaSemana(locacao.getDataRetorno(), Calendar.MONDAY);
         Assert.assertTrue(ehSegunda);
+    }
+
+    public static void main(String[] args) {
+        new BuilderMaster().gerarCodigoClasse(Locacao.class);
     }
 }
