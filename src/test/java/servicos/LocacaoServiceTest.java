@@ -1,8 +1,8 @@
 package servicos;
 
 import buildermaster.BuilderMaster;
-import builders.FilmeBuilder;
-import builders.UsuarioBuilder;
+import daos.LocacaoDAO;
+import daos.LocacaoDAOFake;
 import entidades.Filme;
 import entidades.Locacao;
 import entidades.Usuario;
@@ -11,7 +11,7 @@ import exceptions.LocadoraException;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
-import org.junit.runners.MethodSorters;
+import org.mockito.Mockito;
 import utils.DataUtils;
 
 import java.util.Arrays;
@@ -23,13 +23,16 @@ import static builders.FilmeBuilder.umFilme;
 import static builders.UsuarioBuilder.umUsuario;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static utils.DataUtils.isMesmaData;
 import static utils.DataUtils.obterDataComDiferencaDias;
 
 public class LocacaoServiceTest {
 
     private LocacaoService service;
+    private SPCService spc;
+    private LocacaoDAO dao;
     private static int contador = 0;
 
     @Rule
@@ -41,6 +44,10 @@ public class LocacaoServiceTest {
     @Before
     public  void setup () {
         service = new LocacaoService();
+        dao = Mockito.mock(LocacaoDAO.class);
+        service.setLocacaoDAO(dao);
+        spc = Mockito.mock(SPCService.class);
+        service.setSPCService(spc);
     }
 
     @Test
@@ -156,7 +163,17 @@ public class LocacaoServiceTest {
         Assert.assertTrue(ehSegunda);
     }
 
-    public static void main(String[] args) {
-        new BuilderMaster().gerarCodigoClasse(Locacao.class);
+    @Test
+    public void naoDeveAlugarFilmeParaNegativadoSPC () throws LocadoraException, FilmesSemEstoqueException {
+//        Cenario
+        Usuario usuario = umUsuario().agora();
+        List<Filme> filmes = Arrays.asList(umFilme().agora());
+
+        Mockito.when(spc.possuiNegativacao(usuario)).thenReturn(true);
+
+        expectedException.expect(LocadoraException.class);
+        expectedException.expectMessage("Usuário negativado.");
+//        acao
+        service.alugarFilme(usuario, filmes);
     }
 }
