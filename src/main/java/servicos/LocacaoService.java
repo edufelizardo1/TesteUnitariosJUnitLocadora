@@ -2,11 +2,11 @@ package servicos;
 
 import static utils.DataUtils.adicionarDias;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import daos.LocacaoDAO;
 import entidades.Filme;
 import entidades.Locacao;
 import entidades.Usuario;
@@ -16,7 +16,10 @@ import utils.DataUtils;
 
 
 public class LocacaoService {
-	
+
+	private LocacaoDAO dao;
+	private SPCService spcService;
+
 	public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmesSemEstoqueException, LocadoraException {
 		if (usuario == null) {
 			throw new LocadoraException("Usuário vazio.");
@@ -29,6 +32,11 @@ public class LocacaoService {
 				throw new FilmesSemEstoqueException();
 			}
 		}
+
+		if (spcService.possuiNegativacao(usuario)) {
+			throw new LocadoraException("Usuário negativado.");
+		}
+
 		Locacao locacao = new Locacao();
 		locacao.setFilmes(filmes);
 		locacao.setUsuario(usuario);
@@ -66,9 +74,17 @@ public class LocacaoService {
 		locacao.setDataRetorno(dataEntrega);
 		
 		//Salvando a locacao...	
-		//TODO adicionar método para salvar
+		dao.salvar(locacao);
 		
 		return locacao;
+	}
+
+	public  void setLocacaoDAO(LocacaoDAO dao) {
+		this.dao = dao;
+	}
+
+	public void setSPCService (SPCService spc) {
+		spcService = spc;
 	}
 
 	/**
