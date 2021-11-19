@@ -6,6 +6,7 @@
 <!-- ![Profile views](https://gpvc.arturio.dev/edufelizardo1) -->
 [![made-with-java](https://img.shields.io/badge/Language-Java-1f425f.svg)](https://www.oracle.com/br/java/technologies/javase-jdk8-doc-downloads.html)
 [![made-with-java](https://img.shields.io/badge/framework-JUnit-1f425f.svg)](https://junit.org/junit4/)
+[![made-with-java](https://img.shields.io/badge/framework-Mockito-1f425f.svg)](https://site.mockito.org/)
 [![made-with-java](https://img.shields.io/badge/ide-Intellij-1f425f.svg)](https://www.jetbrains.com/)
 <!-- ![Profile views](https://gpvc.arturio.dev/edufelizardo1) -->
 [![GitHub license](https://img.shields.io/github/license/edufelizardo1/Cucumber_Locadora)](https://github.com/edufelizardo1/TesteUnitariosJUnitLocadora/blob/main/LICENSE)
